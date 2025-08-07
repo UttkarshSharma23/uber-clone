@@ -27,7 +27,6 @@ const userSchema = new mongoose.Schema({
         required : true,
         select: false,
     },
-
     // Live tracking
     socketId : {
         type : String
