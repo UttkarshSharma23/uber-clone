@@ -33,7 +33,6 @@ module.exports.registerUser = async (req, res, next) => {
     res.status(201).json({ token, user });
 }
 
-
 // Login user
 module.exports.loginUser = async (req, res, next) => {
         const errors = validationResult(req);
@@ -55,6 +54,16 @@ module.exports.loginUser = async (req, res, next) => {
             return res.status(401).json({ message: "Invalid email or password" });
         }
 
+        //login with header token
         const token = user.generateAuthToken();
+
+        //login with cookie parser, no need for header authentication in this case
+        res.cookie('token', token);
+
         res.status(200).json({ token, user });
+}
+
+// Get user profile
+module.exports.getUserProfile = async (req, res, next) => {
+    res.status(200).json(req.user);
 }
