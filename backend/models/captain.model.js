@@ -46,7 +46,7 @@ const captainSchema  = new moongose.Schema({
         color:{
             type: String,
             required: true,
-            minlength : [3, 'Color must be at least 3 characters long'],
+            minlength : [4, 'Color must be at least 3 characters long'],
         },
         plate:{
             type: String,
