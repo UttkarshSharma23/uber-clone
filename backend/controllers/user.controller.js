@@ -7,6 +7,8 @@ const blaclListTokenModel = require('../models/blacklistToken.model');
 // Register user
 module.exports.registerUser = async (req, res, next) => {
     const errors = validationResult(req);
+
+    // Check for validation errors
     if (!errors.isEmpty()) {
         return res.status(400).json({ errors: errors.array() })
     }
@@ -19,7 +21,8 @@ module.exports.registerUser = async (req, res, next) => {
         return res.status(400).json({ message: "User already exist" })
     }
 
-    console.log(req.body)
+    //console.log(req.body)
+    
     //hashing done
     const hashedPassword = await userModel.hashPassword(password);
 

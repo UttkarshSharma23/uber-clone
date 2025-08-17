@@ -3,17 +3,17 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 
-const captainSchema  = new moongose.Schema({
+const captainSchema = new moongose.Schema({
     fullname: {
         firstname: {
-            type: String,      
+            type: String,
             required: true,
-            minlength: [3,'First name must be at least 3 characters long'],
+            minlength: [3, 'First name must be at least 3 characters long'],
         },
         lastname: {
-            type: String,      
+            type: String,
             required: true,
-            minlength: [3,'Last name must be at least 3 characters long'],
+            minlength: [3, 'Last name must be at least 3 characters long'],
         },
     },
 
@@ -26,9 +26,9 @@ const captainSchema  = new moongose.Schema({
     },
 
     password: {
-        type: String,   
+        type: String,
         required: true,
-        select : false,
+        select: false,
         minlength: [6, 'Password must be at least 6 characters long'],
     },
 
@@ -36,62 +36,62 @@ const captainSchema  = new moongose.Schema({
         type: String,
     },
 
-    status:{
+    status: {
         type: String,
-        enum : ['active', 'inactive'],
+        enum: ['active', 'inactive'],
         default: 'inactive',
     },
 
     vehicle: {
-        color:{
+        color: {
             type: String,
             required: true,
-            minlength : [3, 'Color must be at least 3 characters long'],
+            minlength: [3, 'Color must be at least 3 characters long'],
         },
-        plate:{
+        plate: {
             type: String,
             required: true,
-            match: [/^[A-Z0-9]{1,7}$/, 'Please fill a valid vehicle plate number'],
+            match: [/^[A-Z]{2}\s?\d{2}\s?[A-Z]{1,2}\s?\d{1,4}$/i, 'Please fill a valid vehicle plate number'],
         },
-        capacity:{
+        capacity: {
             type: Number,
             required: true,
             min: [1, 'Capacity must be at least 1'],
         },
         vehicleType: {
-            type: String,   
+            type: String,
             required: true,
             enum: ['car', 'motorcycle', 'auto'],
-    },
+        },
     },
 
     location: {
-        lat:{
+        lat: {
             type: Number,
         },
-        lng:{
+        lng: {
             type: Number,
         },
     }
 })
 
 
-captainSchema.methods.generateAuthToken = function() {
+captainSchema.methods.generateAuthToken = function () {
     const token = jwt.sign(
-        { _id: this._id}, 
-        process.env.JWT_SECRET, 
-        {expiresIn: '24h'}
+        { _id: this._id },
+        process.env.JWT_SECRET,
+        { expiresIn: '24h' }
     );
-    
-        return token;
+
+    return token;
 }
 
 
-captainSchema.method.comparePassword = async function(password) {
+captainSchema.method.comparePassword = async function (password) {
     return await bcrypt.compare(password, this.password);
 }
 
-captainSchema.statics.hashpassword = async function(password) {
+captainSchema.statics.hashpassword = async function (password) {
     return await bcrypt.hash(password, 10);
 }
 
