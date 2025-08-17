@@ -1,6 +1,8 @@
 const userModel = require('../models/user.model');
 const jwt = require('jsonwebtoken');
 
+const captainModel = require('../models/captain.model');
+
 const blacklistTokenModel = require('../models/blacklistToken.model');
 
 // Middleware to authenticate user
@@ -47,12 +49,15 @@ module.exports.authUser = async (req,res,next)=>{
 module.exports.authCaptain = async (req, res, next) => {
     const token = req.cookies.token || req.headers['authorization']?.split(' ')[1];
 
+    //console.log("Token:", token);
     // Check existence of token
     if (!token) {
         return res.status(401).json({ message: "Unauthorized access" });
     }
 
     const isBlacklisted = await blacklistTokenModel.findOne({ token: token });
+
+    //console.log("Is Blacklisted:", isBlacklisted);
 
     // Check if token is blacklisted
     if (isBlacklisted) {
@@ -70,9 +75,12 @@ module.exports.authCaptain = async (req, res, next) => {
         }
 
         req.captain = captain;
-        next();
+
+        //NOTE : this passes the captain object to the next middleware or route handler so that it can be used in the next step.
+        return next();
         
     } catch (error) {
+       // console.log(err);
         return res.status(401).json({ message: "Invalid token" });
     }
 }
