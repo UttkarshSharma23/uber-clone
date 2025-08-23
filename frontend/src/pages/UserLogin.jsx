@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
 const UserLogin = () => {
@@ -8,17 +8,21 @@ const UserLogin = () => {
 
   const [userData, setUserData] = useState({});
 
+  // Logging userData whenever it changes
+  useEffect(() => {
+    if (userData.email || userData.password) {
+      console.log('User Data updated:', userData);
+    }
+  }, [userData])
 
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log('Email:', email);
 
     setUserData({
       email: email,
-      password: password
-    })
+      password: password,
+    });
 
-    console.log('User Data:', userData);
     // empty the input fields after submission
     setEmail('');
     setPassword('');
