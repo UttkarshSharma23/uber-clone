@@ -15,7 +15,7 @@ const UserSignup = () => {
     e.preventDefault();
 
     setUserSignInData({
-      username: {
+      fullName: {
         firstName: firstName,
         lastName: lastName
       },
@@ -24,7 +24,7 @@ const UserSignup = () => {
     })
 
     console.log('User Data:', userSigninData);
-    
+
     // empty the input fields after submission
     setFirstName('');
     setLastName('');
@@ -38,7 +38,7 @@ const UserSignup = () => {
 
       {/* Main content for user login */}
       <div>
-        <img className='w-20 mb-3' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQmoJcsV2aZSkAm3nmwtyjuiekrT3H5U7pvjQ&s" alt="" />
+        <img className='w-20 mb-3' src="https://upload.wikimedia.org/wikipedia/commons/5/58/Uber_logo_2018.svg" alt="" />
 
 
         <form onSubmit={(e) => {
